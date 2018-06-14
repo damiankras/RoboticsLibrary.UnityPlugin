@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
@@ -22,30 +14,17 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5E05F777-C65E-4CFE-AF6B-4B5C278A4971}</ProjectGuid>
     <RootNamespace>RoboticsLibraryUnityPlugin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -56,12 +35,6 @@
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -69,35 +42,28 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-  </ItemDefinitionGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\include;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\include\eigen3;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\include\rl-0.7.0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\atidaq.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Bullet2FileLoader.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Bullet3Collision.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Bullet3Common.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Bullet3Dynamics.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Bullet3Geometry.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Bullet3OpenCL_clew.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletCollision.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletDynamics.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletFileLoader.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletInverseDynamics.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletInverseDynamicsUtils.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletSoftBody.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletWorldImporter.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\BulletXmlWorldImporter.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\Coin4.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\ConvexDecomposition.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\GIMPACTUtils.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\HACD.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\libcharset.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\libexslt.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\libiconv.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\libxml2.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\libxslt.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\LinearMath.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\nlopt.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\ode_double.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\PQP.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlkins.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlmdls.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlplans.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlsgs.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\simage1.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\solid3.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\SoQt1.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\zlib.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\zlibstatic.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -108,13 +74,24 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\include;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\include\eigen3;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\include\rl-0.7.0</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlkins.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlmdls.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlplans.lib;C:\Program Files\Robotics Library\0.7.0\MSVC\14.1\x64\lib\rlsgs.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DLLExport.h" />
+    <ClInclude Include="Robot.h" />
+    <ClInclude Include="RobotService.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DLLExport.cpp" />
+    <ClCompile Include="Robot.cpp" />
+    <ClCompile Include="RobotService.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
