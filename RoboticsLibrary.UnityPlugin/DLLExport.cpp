@@ -90,3 +90,10 @@ bool Robot_SolveIk(long id)
 	auto robot = GetRobot(id);
 	return robot.SolveIk();
 }
+
+void Robot_GetSpeed(long id, double* data)
+{
+	auto model = GetRobot(id).GetModel();
+	const size_t dof = model.getDof();
+	CopyData(model.getSpeed(), data, dof);
+}

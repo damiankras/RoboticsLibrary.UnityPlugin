@@ -36,6 +36,10 @@ namespace RoboticsLibrary.UnityPlugin.UnitTests
             robot.SetGoal(0, transform);
             bool a = robot.SolveIk();
             var pos2 = robot.GetPosition().RadiansToDegrees();
+
+            var acc = robot.GetAcceleration();
+            var speed = robot.GetSpeed();
+            var speed2 = robot.GetSpeed(Unit.Degrees);
         }
 
         [TestMethod]

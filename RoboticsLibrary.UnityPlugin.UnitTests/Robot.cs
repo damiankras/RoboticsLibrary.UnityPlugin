@@ -190,6 +190,23 @@ namespace RoboticsLibrary.UnityPlugin.UnitTests
             }
         }
 
+        public double[] GetSpeed(Unit unit = Unit.Radians)
+        {
+            double[] data = new double[Dof];
+            Robot_GetSpeed(m_id, data);
+            switch (unit)
+            {
+                case Unit.Radians:
+                    return data;
+
+                case Unit.Degrees:
+                    return data.RadiansToDegrees();
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(unit), unit, null);
+            }
+        }
+
         public void SetGoal(long tcpId, Transform transform)
         {
             if (tcpId < 0)
@@ -235,6 +252,10 @@ namespace RoboticsLibrary.UnityPlugin.UnitTests
             CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void Robot_SetAcceleration(long id, double[] data);
 
+        [DllImport("RoboticsLibrary.UnityPlugin.dll",
+            CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private static extern void Robot_GetSpeed(long id, double[] data);
+        
         [DllImport("RoboticsLibrary.UnityPlugin.dll",
             CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         private static extern void Robot_SetGoal(long id, long tcpId, ref Transform transform);

@@ -24,6 +24,8 @@ extern "C"
 	PINVOKELIB_API void Robot_GetAcceleration(long id, double* data);
 	PINVOKELIB_API void Robot_SetAcceleration(long id, double* data);
 
+	PINVOKELIB_API void Robot_GetSpeed(long id, double* data);
+
 	PINVOKELIB_API void Robot_SetGoal(long id, long tcpId, RoboticsLibrary::Transform* transform);
 	PINVOKELIB_API bool Robot_SolveIk(long id);
 
