@@ -19,6 +19,11 @@ RoboticsLibrary::Robot::Robot(std::string &pathToMdl)
 
 RoboticsLibrary::Robot::~Robot() = default;
 
+rl::mdl::Model& RoboticsLibrary::Robot::GetModel()
+{
+	return *m_model;
+}
+
 size_t RoboticsLibrary::Robot::GetDof() const
 {
 	return m_model->getDof();

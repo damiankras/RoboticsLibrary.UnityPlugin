@@ -17,8 +17,12 @@ extern "C"
 	PINVOKELIB_API bool DeleteRobot(long id);
 
 	PINVOKELIB_API long Robot_GetDof(long id);
+
 	PINVOKELIB_API void Robot_GetPosition(long id, double* data);
 	PINVOKELIB_API void Robot_SetPosition(long id, double* data);
+
+	PINVOKELIB_API void Robot_GetAcceleration(long id, double* data);
+	PINVOKELIB_API void Robot_SetAcceleration(long id, double* data);
 
 	PINVOKELIB_API void Robot_SetGoal(long id, long tcpId, RoboticsLibrary::Transform* transform);
 	PINVOKELIB_API bool Robot_SolveIk(long id);

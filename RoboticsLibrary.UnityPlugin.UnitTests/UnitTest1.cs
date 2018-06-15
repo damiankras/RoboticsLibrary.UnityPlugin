@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace RoboticsLibrary.UnityPlugin.UnitTests
 {
@@ -31,13 +30,12 @@ namespace RoboticsLibrary.UnityPlugin.UnitTests
             Transform transform = new Transform()
             {
                 Translation = new Vector3(0.25, -0.01, 0.2),
-                Rotation = new Vector3(-Math.PI / 2, 0, 0)
+                Rotation = new Vector3(-90d.DegreesToRadians(), 0, 0)
             };
 
             robot.SetGoal(0, transform);
-            bool a = robot.SolveIK();
-
-            var pos2 = robot.GetPosition();
+            bool a = robot.SolveIk();
+            var pos2 = robot.GetPosition().RadiansToDegrees();
         }
 
         [TestMethod]
@@ -58,6 +56,13 @@ namespace RoboticsLibrary.UnityPlugin.UnitTests
             {
                 Assert.AreEqual(posToSet[i], pos[i]);
             }
+        }
+
+        [TestMethod]
+        public void Robot_GetAcceleration()
+        {
+            var acceleration = robot.GetAcceleration(Unit.Degrees);
+            Assert.IsNotNull(acceleration);
         }
     }
 }

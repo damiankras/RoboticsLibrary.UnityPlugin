@@ -34,10 +34,12 @@ namespace RoboticsLibrary
 		Robot(std::string &pathToMdl);
 		virtual ~Robot();
 
+		rl::mdl::Model& GetModel();
+
 		size_t GetDof() const;
 		void GetPosition(double *data) const;
 		void SetPosition(const double *data);
-
+		
 		void SetGoal(size_t tcpId, Transform &transform);
 		void ClearGoals();
 		bool SolveIk();
