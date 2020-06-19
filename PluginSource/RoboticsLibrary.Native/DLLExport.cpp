@@ -2,25 +2,11 @@
 
 RoboticsLibrary::Robot& GetRobot(long id)
 {
-	return RoboticsLibrary::RobotService::Instance()->GetRobot(id);
+	RoboticsLibrary::Robot* ptr = nullptr;
+	return *ptr;
 }
 
-long CreateRobot(const char * pathToMdl)
-{
-	long id = -1;
-	try
-	{
-		std::string path = std::string(pathToMdl);
-		id = RoboticsLibrary::RobotService::Instance()->CreateRobot(path);
-	}
-	catch (const std::exception& ex)
-	{
-	}
-
-	return id;
-}
-
-void CopyData(const rl::math::Vector &source, double *destination, size_t lenght)
+void CopyData(const rl::math::Vector& source, double* destination, size_t lenght)
 {
 	for (size_t i = 0; i < lenght; i++)
 	{
@@ -28,17 +14,12 @@ void CopyData(const rl::math::Vector &source, double *destination, size_t lenght
 	}
 }
 
-void CopyData(const double *source, rl::math::Vector &destination, size_t lenght)
+void CopyData(const double* source, rl::math::Vector& destination, size_t lenght)
 {
 	for (size_t i = 0; i < lenght; i++)
 	{
 		destination[i] = source[i];
 	}
-}
-
-bool DeleteRobot(long id)
-{
-	return RoboticsLibrary::RobotService::Instance()->DeleteRobot(id);
 }
 
 long Robot_GetDof(long id)

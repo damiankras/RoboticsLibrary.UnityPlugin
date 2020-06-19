@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RobotService.h"
+#include "Robot.h"
 
 #ifdef PINVOKELIB_EXPORTS
 #define PINVOKELIB_API __declspec(dllexport)
@@ -12,9 +12,6 @@
 extern "C"
 {
 #endif
-
-	PINVOKELIB_API long CreateRobot(const char * pathToMdl);
-	PINVOKELIB_API bool DeleteRobot(long id);
 
 	PINVOKELIB_API long Robot_GetDof(long id);
 
@@ -28,6 +25,10 @@ extern "C"
 
 	PINVOKELIB_API void Robot_SetGoal(long id, long tcpId, RoboticsLibrary::Transform* transform);
 	PINVOKELIB_API bool Robot_SolveIk(long id);
+
+	PINVOKELIB_API rl::mdl::Model* RL_MDL_Model_New();
+	PINVOKELIB_API rl::mdl::Model* RL_MDL_XmlFactory_Create(const char* path);
+	PINVOKELIB_API void RL_MDL_Model_Delete(rl::mdl::Model* model);
 
 #ifdef __cplusplus
 }

@@ -18,10 +18,10 @@
     <ClInclude Include="Robot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RobotService.h">
+    <ClInclude Include="DLLExport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DLLExport.h">
+    <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClCompile Include="Robot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RobotService.cpp">
+    <ClCompile Include="DLLExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DLLExport.cpp">
+    <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,19 +14,20 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5E05F777-C65E-4CFE-AF6B-4B5C278A4971}</ProjectGuid>
     <RootNamespace>RoboticsLibraryUnityPlugin</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>RoboticsLibrary.Native</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -48,8 +49,8 @@
     <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>obj\$(Platform)\$(Configuration)\</IntDir>
+    <OutDir>..\bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\obj\$(Platform)\$(Configuration)\</IntDir>
     <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -85,13 +86,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DLLExport.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Robot.h" />
-    <ClInclude Include="RobotService.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DLLExport.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Robot.cpp" />
-    <ClCompile Include="RobotService.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
