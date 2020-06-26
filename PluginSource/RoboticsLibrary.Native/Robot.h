@@ -43,7 +43,13 @@ namespace RoboticsLibrary
 		double m32;
 		double m33;
 	} TransformRaw;
-		
+
+	union TransformArray
+	{
+		TransformRaw raw;
+		double _array[16];
+	};
+
 	class Robot
 	{
 	private:
@@ -51,16 +57,16 @@ namespace RoboticsLibrary
 		std::shared_ptr<rl::mdl::NloptInverseKinematics> m_nlopt_ik = nullptr;
 
 	public:
-		Robot(std::string &pathToMdl);
+		Robot(std::string& pathToMdl);
 		virtual ~Robot();
 
 		rl::mdl::Model& GetModel();
 
 		size_t GetDof() const;
-		void GetPosition(double *data) const;
-		void SetPosition(const double *data);
-		
-		void SetGoal(size_t tcpId, Transform &transform);
+		void GetPosition(double* data) const;
+		void SetPosition(const double* data);
+
+		void SetGoal(size_t tcpId, Transform& transform);
 		void ClearGoals();
 		bool SolveIk();
 	};

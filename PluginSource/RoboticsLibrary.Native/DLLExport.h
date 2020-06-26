@@ -26,10 +26,6 @@ extern "C"
 	PINVOKELIB_API void Robot_SetGoal(long id, long tcpId, RoboticsLibrary::Transform* transform);
 	PINVOKELIB_API bool Robot_SolveIk(long id);
 
-	PINVOKELIB_API rl::mdl::Model* RL_MDL_Model_New();
-	PINVOKELIB_API rl::mdl::Model* RL_MDL_XmlFactory_Create(const char* path);
-	PINVOKELIB_API void RL_MDL_Model_Delete(rl::mdl::Model* model);
-
 #ifdef __cplusplus
 }
 #endif

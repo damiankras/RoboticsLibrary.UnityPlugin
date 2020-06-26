@@ -5,12 +5,6 @@
 
 namespace RoboticsLibrary.Net.Math
 {
-    public enum Unit
-    {
-        Radians = 0,
-        Degrees = 1
-    }
-
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2
     {

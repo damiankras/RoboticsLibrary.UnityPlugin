@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy $(ProjectDir)..\RoboticsLibrary.Native\bin\x64\$(ConfigurationName)\RoboticsLibrary.Native.dll $(OutDir)&#xD;&#xA;xcopy $(ProjectDir)..\RoboticsLibrary.Native\bin\x64\$(ConfigurationName)\RoboticsLibrary.Native.pdb $(OutDir)" />
+    <Exec Command="xcopy /Y /Q &quot;$(ProjectDir)..\RoboticsLibrary.Native\bin\x64\$(ConfigurationName)\RoboticsLibrary.Native.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;xcopy /Y /Q &quot;$(ProjectDir)..\RoboticsLibrary.Native\bin\x64\$(ConfigurationName)\RoboticsLibrary.Native.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;" />
   </Target>
 
 </Project>

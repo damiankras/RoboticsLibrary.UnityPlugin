@@ -1,115 +1,255 @@
 #include "Model.h"
 
-rl::mdl::Model* RL_MDL_Model_New()
-{
-	return new rl::mdl::Model();
-}
+// ReSharper disable CppInconsistentNaming
+// ReSharper disable CppClangTidyClangDiagnosticInconsistentDllimport
 
-void RL_MDL_Model_Delete(rl::mdl::Model* model)
-{
-	if (model != nullptr)
-	{
-		delete model;
-		model = nullptr;
-	}
-}
-
-rl::mdl::Model* RL_MDL_XmlFactory_Create(const char* path)
+errno_t Execute(const std::function<void(void)>& lambda)
 {
 	try
 	{
-		rl::mdl::XmlFactory factory;
-		const auto model_ptr = factory.create(path);
-		return model_ptr;
+		lambda();
+		return errorno_codes::SUCCESS;
 	}
-	catch (const std::exception& ex)
+	catch (std::bad_alloc&)
 	{
+		return errorno_codes::STD_BAD_ALLOC;
 	}
-	return nullptr;
+	catch (...)
+	{
+		return errorno_codes::UNKNOWN;
+	}
 }
 
-::std::size_t RL_MDL_Model_GetDof(rl::mdl::Model* model)
+template<typename T>
+errno_t Execute(T* ptr, const std::function<void(T*)>& lambda)
 {
-	//if (model == nullptr)
-	//	throw
+	if (ptr == nullptr)
+		return errorno_codes::NULLPTR;
 
-	return model->getDof();
+	auto lambda1 = [ptr, &lambda]()
+	{
+		lambda(ptr);
+	};
+
+	return Execute(lambda1);
 }
 
-::std::size_t RL_MDL_Model_GetDofPosition(rl::mdl::Model* model)
+errno_t RL_MDL_Model_New(rl::mdl::Model* &ptr)
 {
-	//if (model == nullptr)
-	//	throw
+	ptr = nullptr;
 
-	return model->getDofPosition();
+	auto lambda = [&ptr]()
+	{
+		ptr = new rl::mdl::Model();
+	};
+
+	return Execute(lambda);
 }
 
-void RL_MDL_Model_GetAcceleration(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_Delete(rl::mdl::Model* &ptr)
 {
-	auto source = model->getAcceleration();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	if (ptr == nullptr)
+		return errorno_codes::SUCCESS;
+
+	auto lambda = [](rl::mdl::Model* ptr)
+	{
+		delete ptr;
+		ptr = nullptr;
+	};
+
+	return Execute<rl::mdl::Model>(ptr, lambda);
 }
 
-void RL_MDL_Model_GetPosition(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_XmlFactory_Create(const char* path, rl::mdl::Model* &ptr)
 {
-	auto source = model->getPosition();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	rl::mdl::XmlFactory factory;
+	ptr = factory.create(path);;
+	return 0;
+	
+	auto lambda = [&path, &ptr]()
+	{
+		rl::mdl::XmlFactory factory;
+		ptr = factory.create(path);
+	};
+
+	return Execute(lambda);
 }
 
-void RL_MDL_Model_GetHomePosition(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_AreColliding(
+	rl::mdl::Model* ptr,
+	const uint64_t& i,
+	const uint64_t& j,
+	uint32_t* dst)
 {
-	auto source = model->getHomePosition();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	return Execute<rl::mdl::Model>(ptr, [dst, &i, &j](rl::mdl::Model* model)
+		{
+			*dst = model->areColliding(i, j) ? 1U : 0U;
+		});
 }
 
-::std::size_t RL_MDL_Model_GetBodies(rl::mdl::Model* model)
+errno_t RL_MDL_Model_GetAcceleration(rl::mdl::Model* ptr, double* dst)
 {
-	return model->getBodies();
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getAcceleration();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
 }
 
-::std::size_t RL_MDL_Model_GetJoints(rl::mdl::Model* model)
+errno_t RL_MDL_Model_GetAccelerationUnits(rl::mdl::Model* ptr, int32_t* dst)
 {
-	return model->getJoints();
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getAccelerationUnits();
+			memcpy(dst, source.data(), source.size() * sizeof(int32_t));
+		});
 }
 
-::std::size_t RL_MDL_Model_GetOperationalDof(rl::mdl::Model* model)
+errno_t RL_MDL_Model_GetBodies(rl::mdl::Model* ptr, uint64_t* dst)
 {
-	return model->getOperationalDof();
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			*dst = model->getBodies();
+		});
 }
 
-void RL_MDL_Model_GetMaximum(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_GetDof(rl::mdl::Model* ptr, uint64_t* dst)
 {
-	auto source = model->getMaximum();
-	size_t size = source.size();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			*dst = model->getDof();
+		});
 }
 
-void RL_MDL_Model_GetMinimum(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_GetDofPosition(rl::mdl::Model* ptr, uint64_t* dst)
 {
-	auto source = model->getMinimum();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			*dst = model->getDofPosition();
+		});
 }
 
-void RL_MDL_Model_GetTorque(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_GetJoints(rl::mdl::Model* ptr, uint64_t* dst)
 {
-	auto source = model->getTorque();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			*dst = model->getJoints();
+		});
 }
 
-void RL_MDL_Model_GetSpeed(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_GetOperationalDof(rl::mdl::Model* ptr, uint64_t* dst)
 {
-	auto source = model->getSpeed();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			*dst = model->getOperationalDof();
+		});
 }
 
-void RL_MDL_Model_GetVelocity(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_GetPosition(rl::mdl::Model* ptr, double* dst)
 {
-	auto source = model->getVelocity();
-	memcpy(vector, source.data(), source.size() * sizeof(double));
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getPosition();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
 }
 
-void RL_MDL_Model_GetTool(rl::mdl::Model* model, double* vector)
+errno_t RL_MDL_Model_GetPositionUnits(rl::mdl::Model* ptr, int32_t* dst)
 {
-	auto tool = model->tool(0);
-	tool.data();
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getPositionUnits();
+			memcpy(dst, source.data(), source.size() * sizeof(int32_t));
+		});
+}
+
+errno_t RL_MDL_Model_GetHomePosition(rl::mdl::Model* ptr, double* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getHomePosition();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
+}
+
+errno_t RL_MDL_Model_GetMaximum(rl::mdl::Model* ptr, double* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getMaximum();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
+}
+
+errno_t RL_MDL_Model_GetMinimum(rl::mdl::Model* ptr, double* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getMinimum();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
+}
+
+errno_t RL_MDL_Model_GetTorque(rl::mdl::Model* ptr, double* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getTorque();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
+}
+
+errno_t RL_MDL_Model_GetTorqueUnits(rl::mdl::Model* ptr, int32_t* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getTorqueUnits();
+			memcpy(dst, source.data(), source.size() * sizeof(int32_t));
+		});
+}
+
+errno_t RL_MDL_Model_GetSpeed(rl::mdl::Model* ptr, double* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getSpeed();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
+}
+
+errno_t RL_MDL_Model_GetSpeedUnits(rl::mdl::Model* ptr, int32_t* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getSpeedUnits();
+			memcpy(dst, source.data(), source.size() * sizeof(int32_t));
+		});
+}
+
+errno_t RL_MDL_Model_GetVelocity(rl::mdl::Model* ptr, double* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getVelocity();
+			memcpy(dst, source.data(), source.size() * sizeof(double));
+		});
+}
+
+errno_t RL_MDL_Model_GetVelocityUnits(rl::mdl::Model* ptr, int32_t* dst)
+{
+	return Execute<rl::mdl::Model>(ptr, [dst](rl::mdl::Model* model)
+		{
+			auto source = model->getVelocityUnits();
+			memcpy(dst, source.data(), source.size() * sizeof(int32_t));
+		});
+}
+
+errno_t RL_MDL_Model_GetTool(rl::mdl::Model* ptr, const uint64_t& i, double* dst)
+{
+	//return Execute<rl::mdl::Model>(ptr, [dst, &i, &j](rl::mdl::Model* model)
+	//{
+	//	*dst = model->areColliding(i, j) ? 1U : 0U;
+	//});
+
+	return errorno_codes::NOT_IMPLEMENTED;
 }
