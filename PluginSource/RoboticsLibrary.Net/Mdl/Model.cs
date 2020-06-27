@@ -1,15 +1,19 @@
-﻿using System;
+﻿using RoboticsLibrary.Net.Exceptions;
+using System;
 using System.IO;
+using RoboticsLibrary.Net.Math;
+
+// ReSharper disable InlineOutVariableDeclaration
 
 namespace RoboticsLibrary.Net.Mdl
 {
-    public class Model : IDisposable
+    public sealed class Model : IDisposable
     {
         private readonly ModelSafeHandle m_ptr;
 
         public Model()
         {
-            var error = ModelNative.RL_MDL_Model_New(out m_ptr);
+            ModelNative.RL_MDL_Model_New(out m_ptr).ThrowOnError();
             if (m_ptr.IsInvalid)
             {
                 throw new Exception();
@@ -24,31 +28,45 @@ namespace RoboticsLibrary.Net.Mdl
             if (!File.Exists(path))
                 throw new FileNotFoundException();
 
-            //int error = ModelNative.RL_MDL_XmlFactory_Create(path, out m_ptr);
-            int error = ModelNative.RL_MDL_XmlFactory_Create(path, out m_ptr);
+            ModelNative.RL_MDL_XmlFactory_Create(path, out m_ptr).ThrowOnError();
             if (m_ptr.IsInvalid)
             {
                 throw new Exception();
             }
         }
 
+        public bool AreColliding(UInt64 i, UInt64 j)
+        {
+            UInt32 result;
+            ModelNative.RL_MDL_Model_AreColliding(m_ptr, i, j, out result).ThrowOnError();
+            return result != 0;
+        }
+
         public double[] GetAcceleration()
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetAcceleration(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetAcceleration(m_ptr, result).ThrowOnError();
+            return result;
+        }
+
+        public Unit[] GetAccelerationUnits()
+        {
+            UInt64 dof = GetDof();
+            Unit[] result = new Unit[dof];
+            ModelNative.RL_MDL_Model_GetAccelerationUnits(m_ptr, result).ThrowOnError();
             return result;
         }
 
         public UInt64 GetDof()
         {
-            int error = ModelNative.RL_MDL_Model_GetDof(m_ptr, out ulong value);
+            ModelNative.RL_MDL_Model_GetDof(m_ptr, out ulong value).ThrowOnError();
             return value;
         }
 
         public UInt64 GetDofPosition()
         {
-            int error = ModelNative.RL_MDL_Model_GetDofPosition(m_ptr, out ulong value);
+            ModelNative.RL_MDL_Model_GetDofPosition(m_ptr, out ulong value).ThrowOnError();
             return value;
         }
 
@@ -56,7 +74,7 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetPosition(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetPosition(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -64,7 +82,7 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetHomePosition(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetHomePosition(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -72,7 +90,7 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetMaximum(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetMaximum(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -80,7 +98,7 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetMinimum(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetMinimum(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -88,7 +106,7 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetTorque(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetTorque(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -96,7 +114,7 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetSpeed(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetSpeed(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -104,13 +122,13 @@ namespace RoboticsLibrary.Net.Mdl
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
-            ModelNative.RL_MDL_Model_GetVelocity(m_ptr, result);
+            ModelNative.RL_MDL_Model_GetVelocity(m_ptr, result).ThrowOnError();
             return result;
         }
 
-        public virtual void Dispose()
+        public void Dispose()
         {
-            m_ptr.Dispose();
+            m_ptr?.Dispose();
         }
     }
 }

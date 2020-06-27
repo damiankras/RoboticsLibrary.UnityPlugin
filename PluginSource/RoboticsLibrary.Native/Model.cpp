@@ -21,12 +21,12 @@ errno_t Execute(const std::function<void(void)>& lambda)
 }
 
 template<typename T>
-errno_t Execute(T* ptr, const std::function<void(T*)>& lambda)
+errno_t Execute(T* &ptr, const std::function<void(T*&)>& lambda)
 {
 	if (ptr == nullptr)
 		return errorno_codes::NULLPTR;
 
-	auto lambda1 = [ptr, &lambda]()
+	auto lambda1 = [&ptr, &lambda]()
 	{
 		lambda(ptr);
 	};
@@ -34,10 +34,9 @@ errno_t Execute(T* ptr, const std::function<void(T*)>& lambda)
 	return Execute(lambda1);
 }
 
-errno_t RL_MDL_Model_New(rl::mdl::Model* &ptr)
+errno_t RL_MDL_Model_New(rl::mdl::Model*& ptr)
 {
 	ptr = nullptr;
-
 	auto lambda = [&ptr]()
 	{
 		ptr = new rl::mdl::Model();
@@ -46,12 +45,12 @@ errno_t RL_MDL_Model_New(rl::mdl::Model* &ptr)
 	return Execute(lambda);
 }
 
-errno_t RL_MDL_Model_Delete(rl::mdl::Model* &ptr)
+errno_t RL_MDL_Model_Delete(rl::mdl::Model*& ptr)
 {
 	if (ptr == nullptr)
 		return errorno_codes::SUCCESS;
 
-	auto lambda = [](rl::mdl::Model* ptr)
+	auto lambda = [](rl::mdl::Model* &ptr)
 	{
 		delete ptr;
 		ptr = nullptr;
@@ -60,12 +59,8 @@ errno_t RL_MDL_Model_Delete(rl::mdl::Model* &ptr)
 	return Execute<rl::mdl::Model>(ptr, lambda);
 }
 
-errno_t RL_MDL_XmlFactory_Create(const char* path, rl::mdl::Model* &ptr)
+errno_t RL_MDL_XmlFactory_Create(const char* path, rl::mdl::Model*& ptr)
 {
-	rl::mdl::XmlFactory factory;
-	ptr = factory.create(path);;
-	return 0;
-	
 	auto lambda = [&path, &ptr]()
 	{
 		rl::mdl::XmlFactory factory;

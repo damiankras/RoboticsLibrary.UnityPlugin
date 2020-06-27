@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RoboticsLibrary.Net.Math
 {
-    enum Unit : Int32
+    public enum Unit : Int32
     {
         None,
         Meter,

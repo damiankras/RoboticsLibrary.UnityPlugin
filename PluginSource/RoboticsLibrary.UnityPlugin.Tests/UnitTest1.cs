@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System;
 using System.Diagnostics;
+using RoboticsLibrary.Net.Math;
 
 namespace RoboticsLibrary.UnityPlugin.Tests
 {
@@ -26,6 +27,7 @@ namespace RoboticsLibrary.UnityPlugin.Tests
             UInt64 dof = model.GetDof();
             UInt64 dofPosition = model.GetDofPosition();
             double[] acceleration = model.GetAcceleration();
+            Unit[] accelerationUnits = model.GetAccelerationUnits();
             double[] position = model.GetPosition();
 
             double[] homePos = model.GetHomePosition();
