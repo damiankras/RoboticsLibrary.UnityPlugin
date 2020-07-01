@@ -1,7 +1,7 @@
 ﻿using RoboticsLibrary.Net.Exceptions;
+using RoboticsLibrary.Net.Math;
 using System;
 using System.IO;
-using RoboticsLibrary.Net.Math;
 
 // ReSharper disable InlineOutVariableDeclaration
 
@@ -58,9 +58,15 @@ namespace RoboticsLibrary.Net.Mdl
             return result;
         }
 
+        public UInt64 GetBodies()
+        {
+            ModelNative.RL_MDL_Model_GetBodies(m_ptr, out UInt64 value).ThrowOnError();
+            return value;
+        }
+
         public UInt64 GetDof()
         {
-            ModelNative.RL_MDL_Model_GetDof(m_ptr, out ulong value).ThrowOnError();
+            ModelNative.RL_MDL_Model_GetDof(m_ptr, out UInt64 value).ThrowOnError();
             return value;
         }
 
@@ -70,11 +76,31 @@ namespace RoboticsLibrary.Net.Mdl
             return value;
         }
 
+        public UInt64 GetJoints()
+        {
+            ModelNative.RL_MDL_Model_GetJoints(m_ptr, out UInt64 value).ThrowOnError();
+            return value;
+        }
+
+        public UInt64 GetOperationalDof()
+        {
+            ModelNative.RL_MDL_Model_GetOperationalDof(m_ptr, out UInt64 value).ThrowOnError();
+            return value;
+        }
+
         public double[] GetPosition()
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
             ModelNative.RL_MDL_Model_GetPosition(m_ptr, result).ThrowOnError();
+            return result;
+        }
+
+        public Unit[] GetPositionUnits()
+        {
+            UInt64 dof = GetDof();
+            Unit[] result = new Unit[dof];
+            ModelNative.RL_MDL_Model_GetPositionUnits(m_ptr, result).ThrowOnError();
             return result;
         }
 
@@ -110,6 +136,14 @@ namespace RoboticsLibrary.Net.Mdl
             return result;
         }
 
+        public Unit[] GetTorqueUnits()
+        {
+            UInt64 dof = GetDof();
+            Unit[] result = new Unit[dof];
+            ModelNative.RL_MDL_Model_GetTorqueUnits(m_ptr, result).ThrowOnError();
+            return result;
+        }
+
         public double[] GetSpeed()
         {
             UInt64 dof = GetDof();
@@ -118,11 +152,27 @@ namespace RoboticsLibrary.Net.Mdl
             return result;
         }
 
+        public Unit[] GetSpeedUnits()
+        {
+            UInt64 dof = GetDof();
+            Unit[] result = new Unit[dof];
+            ModelNative.RL_MDL_Model_GetSpeedUnits(m_ptr, result).ThrowOnError();
+            return result;
+        }
+
         public double[] GetVelocity()
         {
             UInt64 dof = GetDof();
             double[] result = new double[dof];
             ModelNative.RL_MDL_Model_GetVelocity(m_ptr, result).ThrowOnError();
+            return result;
+        }
+
+        public Unit[] GetVelocityUnits()
+        {
+            UInt64 dof = GetDof();
+            Unit[] result = new Unit[dof];
+            ModelNative.RL_MDL_Model_GetVelocityUnits(m_ptr, result).ThrowOnError();
             return result;
         }
 

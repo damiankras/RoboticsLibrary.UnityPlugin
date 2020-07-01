@@ -94,7 +94,7 @@ namespace RoboticsLibrary.Net.Mdl
             [In] ModelSafeHandle ptr, double[] dst);
 
         [DllImport(DllName)]
-        internal static extern ErrorNo RL_MDL_Model_GetVelocity(
+        internal static extern ErrorNo RL_MDL_Model_GetVelocityUnits(
             [In] ModelSafeHandle ptr, Unit[] dst);
 
         [DllImport(DllName)]

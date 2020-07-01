@@ -1,7 +1,7 @@
 using NUnit.Framework;
+using RoboticsLibrary.Net.Math;
 using System;
 using System.Diagnostics;
-using RoboticsLibrary.Net.Math;
 
 namespace RoboticsLibrary.UnityPlugin.Tests
 {
@@ -22,22 +22,32 @@ namespace RoboticsLibrary.UnityPlugin.Tests
 
             string path = @"D:\dev\Robotics\rl-ABB-YuMi\rlmdl\YuMi.xml";
 
-            Net.Mdl.Model model = new Net.Mdl.Model(path);
+            using (Net.Mdl.Model model = new Net.Mdl.Model(path))
+            {
+                double[] acceleration = model.GetAcceleration();
+                Unit[] accelerationUnits = model.GetAccelerationUnits();
 
-            UInt64 dof = model.GetDof();
-            UInt64 dofPosition = model.GetDofPosition();
-            double[] acceleration = model.GetAcceleration();
-            Unit[] accelerationUnits = model.GetAccelerationUnits();
-            double[] position = model.GetPosition();
+                UInt64 bodies = model.GetBodies();
+                UInt64 dof = model.GetDof();
+                UInt64 dofPosition = model.GetDofPosition();
+                UInt64 joints = model.GetJoints();
+                UInt64 operationalDof = model.GetOperationalDof();
 
-            double[] homePos = model.GetHomePosition();
-            double[] max = model.GetMaximum();
-            double[] min = model.GetMinimum();
-            double[] torque = model.GetTorque();
-            double[] speed = model.GetSpeed();
-            double[] velocity = model.GetVelocity();
+                double[] position = model.GetPosition();
+                Unit[] positionUnits = model.GetPositionUnits();
+                double[] homePos = model.GetHomePosition();
 
-            model.Dispose();
+                double[] maximum = model.GetMaximum();
+                double[] minimum = model.GetMinimum();
+                double[] torque = model.GetTorque();
+                Unit[] torqueUnits = model.GetTorqueUnits();
+
+                double[] speed = model.GetSpeed();
+                Unit[] speedUnits = model.GetSpeedUnits();
+
+                double[] velocity = model.GetVelocity();
+                Unit[] velocityUnits = model.GetVelocityUnits();
+            }
 
             Assert.Pass();
         }
